@@ -1,0 +1,38 @@
+{
+    "name": "sjoller/s2geometry",
+    "description": "PHP port of Google's S2 Geometry library for spherical geometry and spatial indexing",
+    "type": "library",
+    "license": "Apache-2.0",
+    "version": "1.0.0",
+    "keywords": [
+        "s2",
+        "geometry",
+        "spatial",
+        "indexing",
+        "geolocation"
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sjoller\\S2Geometry\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mads Jensen",
+            "email": "sjoller@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "homepage": "https://github.com/sjoller/s2geometry",
+    "support": {
+        "issues": "https://github.com/sjoller/s2geometry/issues",
+        "source": "https://github.com/sjoller/s2geometry"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sjoller/s2geometry.git"
+    }
+}
