@@ -38,19 +38,23 @@
 		 * Convert a point on the sphere to a point on the cube face.
 		 */
 		public static function faceXYZtoUV (int $face, S2Point $p): array {
+			$x = $p->getX();
+			$y = $p->getY();
+			$z = $p->getZ();
+
 			switch ($face) {
-				case 0:
-					return [$p->getY() / $p->getX(), $p->getZ() / $p->getX()];
-				case 1:
-					return [-$p->getX() / $p->getY(), $p->getZ() / $p->getY()];
-				case 2:
-					return [-$p->getX() / $p->getZ(), -$p->getY() / $p->getZ()];
-				case 3:
-					return [$p->getZ() / $p->getX(), $p->getY() / $p->getX()];
-				case 4:
-					return [$p->getZ() / $p->getY(), -$p->getX() / $p->getY()];
-				case 5:
-					return [-$p->getY() / $p->getZ(), -$p->getX() / $p->getZ()];
+				case 0: // +X face
+					return [$y / $x, $z / $x];
+				case 1: // +Y face
+					return [-$x / $y, $z / $y];
+				case 2: // +Z face
+					return [-$x / $z, -$y / $z];
+				case 3: // -X face
+					return [$y / $x, $z / $x];
+				case 4: // -Y face
+					return [-$x / $y, $z / $y];
+				case 5: // -Z face
+					return [-$x / $z, -$y / $z];
 				default:
 					throw new InvalidArgumentException("Invalid face: $face");
 			}
@@ -64,17 +68,17 @@
 			$v = max(-1.0, min(1.0, $v));
 
 			switch ($face) {
-				case 0:
+				case 0: // +X face
 					return new S2Point(1, $u, $v);
-				case 1:
+				case 1: // +Y face
 					return new S2Point(-$u, 1, $v);
-				case 2:
+				case 2: // +Z face
 					return new S2Point(-$u, -$v, 1);
-				case 3:
+				case 3: // -X face
 					return new S2Point(-1, -$v, -$u);
-				case 4:
+				case 4: // -Y face
 					return new S2Point($v, -1, -$u);
-				case 5:
+				case 5: // -Z face
 					return new S2Point($v, $u, -1);
 				default:
 					throw new InvalidArgumentException("Invalid face: $face");
@@ -85,22 +89,21 @@
 		 * Get the face containing the given point.
 		 */
 		public static function getFace (S2Point $p): int {
-			$absX = abs($p->getX());
-			$absY = abs($p->getY());
-			$absZ = abs($p->getZ());
-
-			if ($absX > $absY) {
-				if ($absX > $absZ) {
-					return $p->getX() > 0 ? 0 : 3;
-				}
+			$x = $p->getX();
+			$y = $p->getY();
+			$z = $p->getZ();
+			
+			$absX = abs($x);
+			$absY = abs($y);
+			$absZ = abs($z);
+			
+			if ($absX > $absY && $absX > $absZ) {
+				return $x > 0 ? 0 : 3;
+			} elseif ($absY > $absZ) {
+				return $y > 0 ? 1 : 4;
+			} else {
+				return $z > 0 ? 2 : 5;
 			}
-			else {
-				if ($absY > $absZ) {
-					return $p->getY() > 0 ? 1 : 4;
-				}
-			}
-
-			return $p->getZ() > 0 ? 2 : 5;
 		}
 
 		/**
@@ -188,7 +191,7 @@
 		 * Converts IJ coordinates to UV coordinates.
 		 */
 		public static function ijToUV (int $ij, int $level): float {
-			$cellSize = 1 << (S2::MAX_LEVEL - $level);
+			$cellSize = 1 << (self::MAX_LEVEL - $level);
 			return (2 * $ij + 1) / (2 * $cellSize) - 1;
 		}
 	}

@@ -74,7 +74,7 @@
 		private function getNeighborCells (S2CellId $cellId): array {
 			$neighbors = [$cellId];
 			$level = $cellId->level();
-			$face = $cellId->face();
+			$face = $cellId->getFace();
 			$pos = $cellId->pos();
 
 			// Get the four neighbors at the same level

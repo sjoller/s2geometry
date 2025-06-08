@@ -66,7 +66,7 @@
 			else {
 				// Use a more readable representation
 				$level = $cellId->level();
-				$face = $cellId->face();
+				$face = $cellId->getFace();
 				$pos = $cellId->pos();
 
 				return sprintf('%s%d/%d/%d', $prefix, $face, $level, $pos);

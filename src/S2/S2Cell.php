@@ -17,8 +17,8 @@
 		 */
 		public function __construct (S2CellId $cellId) {
 			$this->cellId = $cellId;
-        $this->face = $cellId->face();
-        $this->level = $cellId->level();
+			$this->face = $cellId->getFace();
+			$this->level = $cellId->level();
 			$this->orientation = $cellId->orientation();
 			$this->uv = $this->getUV();
 		}
